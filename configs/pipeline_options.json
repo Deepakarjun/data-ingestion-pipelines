@@ -1,0 +1,10 @@
+{
+  "project": "terraform-test-gcp-0114",
+  "region": "us-east1",
+  "runner": "DataflowRunner",
+  "worker_zone": "us-east1-c",
+  "job_name": "my-pubsub-dynamic-json-1",
+  "temp_location": "gs://test-configurations-0114/temp",
+  "staging_location": "gs://test-configurations-0114/staging",
+  "streaming": true
+}

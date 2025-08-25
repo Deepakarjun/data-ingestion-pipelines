@@ -1,0 +1,9 @@
+{
+  "duplicate": {
+    "enabled": true,
+    "repeat_count": 2
+  },
+  "uppercase": {
+    "enabled": false
+  }
+}

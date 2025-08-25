@@ -1,0 +1,67 @@
+project_directory
+    | - configs
+        | - io_config.json # GCS location
+        | - pipeline_options.json # GCS location
+        | - transform_config.json # GCS location
+    | - src
+        | - ps-df-ps.py
+    | - Dockerfile
+    | - metadata.json
+    | - flex_template_spec.json
+
+
+# ***********************************************************   ENABLE GOOGLE CLOUD APIs   ***********************************************************
+gcloud services enable dataflow compute_component \ 
+    logging \
+    storage_component \
+    storage_api \
+    cloudresourcemanager.googleapis.com \
+    artifactregistry.googleapis.com \
+    cloudbuild.googleapis.com
+
+# ***********************************************************   USER ACCOUNT ROLE   ***********************************************************
+gcloud projects add-iam-policy-binding PROJECT_ID --member="deepakarjunwork0@gmail.com" --role=owner
+
+# *********************************************************** GRAND ROLE TO DEFAULT COMPUTE ENGINE SERVICE ACCOUNT   ***********************************************************
+gcloud projects add-iam-policy-binding PROJECT_ID --member="serviceAccount:PROJECT_NUMBER-compute@developer.gserviceaccount.com" --role=SERVICE_ACCOUNT_ROLE
+
+roles: 
+    - roles/dataflow.admin
+    - roles/dataflow.worker
+    - roles/storage.objectAdmin
+    - roles/artifactregistry.writer
+
+# *********************************************************** CREATE ARTIFACTS REPOSITORY   ***********************************************************
+gcloud artifacts repositories create pubsub-df-pubsub  --repository-format=docker  --location=us-east1
+
+# *********************************************************** CONFIGURE DOCKER TO AUTHENTICATE REQUESTS FROM ARTIFACTS REPOSITORY  ***********************************************************
+gcloud auth configure-docker us-east1-docker.pkg.dev
+
+#  *********************************************************** BUILD DOCKER IMAGE ***********************************************************
+docker build -t us-east1-docker.pkg.dev/terraform-test-gcp-0114/pubsub-df-pubsub/my-image-pubsub-df-pubsub:latest .
+
+#  *********************************************************** PUSH DOCKER IMAGE TO ARTIFACT REPOSITORY ***********************************************************
+docker push us-east1-docker.pkg.dev/terraform-test-gcp-0114/pubsub-df-pubsub/my-image-pubsub-df-pubsub:latest
+
+# *********************************************************** PLACE FLEX TEMPLATE IN BUCKET ***********************************************************
+gsutil cp flex_template_spec.json gs://test-configurations-0114/config/flex_template_spec.json
+
+
+# ***********************************************************  BUILD FLEX TEMPLATE PIPELINE  *********************************************************** 
+gcloud dataflow flex-template build gs://test-configurations-0114/config/flex_template_spec.json   
+    --image-gcr-path "us-east1-docker.pkg.dev/terraform-test-gcp-0114/pubsub-df-pubsub/my-image-pubsub-df-pubsub"   
+    --sdk-language "PYTHON"   
+    --flex-template-base-image "PYTHON3"   
+    --metadata-file "metadata.json"   
+    --py-path "."   
+    --env "FLEX_TEMPLATE_PYTHON_PY_FILE=src/ps-df-ps.py"
+
+# *********************************************************** RUN PIPELINE  ***********************************************************
+gcloud dataflow flex-template run ps-df-ps-$(date +%Y%m%d-%H%M%S)  
+    --template-file-gcs-location=gs://test-configurations-0114/config/flex_template_spec.json   
+    --region=us-east1   
+    --parameters FLEX_TEMPLATE_PYTHON_PY_FILE=src/ps-df-ps.py   
+    --parameters pipeline_config_path=gs://test-configurations-0114/config/pipeline_options.json   
+    --parameters io_config_path=gs://test-configurations-0114/config/io_config.json   
+    --parameters transform_config_path=gs://test-configurations-0114/config/transform_config.json 
+
