@@ -1,0 +1,20 @@
+{
+  "name": "GCS (Streaming) → Pub/Sub with Validations",
+  "description": "Continuously watches GCS for new JSON files, validates file naming/extension and JSON schema, writes invalids to GCS, transforms and publishes valid records to Pub/Sub, and moves files.",
+  "parameters": [
+    {
+      "name": "pipeline_options",
+      "label": "Pipeline Options",
+      "helpText": "Path inside container (default: /template/configs/pipeline_options.json)",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "io_options",
+      "label": "IO Options",
+      "helpText": "Path inside container (default: /template/configs/io_options.json)",
+      "paramType": "TEXT",
+      "isOptional": false
+    }
+  ]
+}
