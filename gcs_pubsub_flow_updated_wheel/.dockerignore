@@ -1,0 +1,7 @@
+steps.txt
+docker-clean.sh
+docker-gcloud.sh
+metadata.json
+__pycache__/
+*.pyc
+.venv
