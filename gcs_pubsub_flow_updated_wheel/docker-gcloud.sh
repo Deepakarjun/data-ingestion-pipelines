@@ -9,7 +9,7 @@ export BUCKET_NAME="test-configurations-0114"
 echo $BUCKET_NAME
 export REGION="us-east1"
 echo $REGION
-export TAG="t8"
+export TAG="t22"
 echo $TAG
 export NAME_FLEX_TEMPLATE="gcs-stream-flex-template.json"
 echo $NAME_FLEX_TEMPLATE
@@ -20,9 +20,10 @@ rm -rf dist
 rm -rf build
 rm -rf *.egg-info
 
+sleep 10
+
 # Build packages with the while
-# python3 -m build --wheel
-python3 setup.py sdist bdist_wheel
+python3 -m build --wheel
 
 # set project ID
 gcloud config set project terraform-test-gcp-0114
@@ -40,5 +41,5 @@ gcloud dataflow flex-template build gs://$BUCKET_NAME/templates/$NAME_FLEX_TEMPL
 gcloud dataflow flex-template run "gcs-stream-$(date +%Y%m%d%H%M%S)" \
   --template-file-gcs-location="gs://$BUCKET_NAME/templates/$NAME_FLEX_TEMPLATE" \
   --region="$REGION" \
-  --parameters pipeline_options=/template/configs/pipeline_options.json \
-  --parameters io_options=/template/configs/io_options.json
+  --parameters pipeline_options=/template/configs/adt/pipeline_options.json \
+  --parameters configs_options=/template/configs/adt/configs.json

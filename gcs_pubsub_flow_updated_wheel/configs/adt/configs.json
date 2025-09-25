@@ -1,0 +1,27 @@
+{
+    "PROJECT_ID": "terraform-test-gcp-0114",
+    "REGION": "us-east1",
+    "BUCKET_NAME": "test-configurations-0114",
+    "INTERVAL_SEC": 5,
+    "PREFIX": "flow-storage-dataflow-pubsub",
+    "INPUT_FOLDER": "input_data",
+    "OUTPUT_TOPIC": "eggress_costco_topic",
+    "FILE_TYPE_CHECK_FLAG": true,
+    "FILE_TYPE": "json",
+    
+    "FILE_NAME_PATTERN_FLAG": true,
+    "FILE_NAME_PATTERN": "^data_([0-9]{8}|[0-9]{14})$",
+    "SCHEMA_MATCH_FLAG": true,
+    "SCHEMA_PATH": "/template/schemas/default_schema.json",
+
+    "REQUIRED_COLUMN_CHECK_FLAG": true,
+    "TRACKING_ID_CHECK_FLAG": true,
+    "TRACKING_ID_COLUMN": "trackingId",
+
+    "PROCESSED_DATA_FOLDER_FLAG": true,
+    "PROCESSED_DATA_FOLDER": "processed-data",
+    "INVALID_DATA_FOLDER_FLAG": true,
+    "INVALID_DATA_FOLDER": "invalid-data",
+    "TRACKING_ID_FOLDER_FLAG": true,
+    "TRACKING_ID_FOLDER": "tracking-id"
+}

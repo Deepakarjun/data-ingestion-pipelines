@@ -1,20 +1,18 @@
-import argparse
-import json
+# import argparse
+# import json
+# import re
+# from typing import Iterable, Tuple
+# import os
+# from apache_beam.io import fileio
+# from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
+# from apache_beam.pvalue import TaggedOutput
+
 import logging
-import re
-from datetime import datetime
-from typing import Iterable, Tuple
-import os
-from os.path import basename
-
-
-
 import apache_beam as beam
-from apache_beam.io import fileio
-from apache_beam.io.filesystems import FileSystems
-from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
-from apache_beam.pvalue import TaggedOutput
 from apache_beam import DoFn
+from datetime import datetime
+from apache_beam.io.filesystems import FileSystems
+from os.path import basename
 
 class MoveProcessedPathDoFn(beam.DoFn):
     """
@@ -25,7 +23,7 @@ class MoveProcessedPathDoFn(beam.DoFn):
 
     def process(self, path: str):
         try:
-            dst = self.dest_prefix + basename(path)
+            dst = self.dest_prefix+ str(datetime.now().strftime("%Y-%m-%d")) + "/" + basename(path)
             FileSystems.copy([path], [dst])
             FileSystems.delete([path])
             logging.info("Processed move %s -> %s", path, dst)

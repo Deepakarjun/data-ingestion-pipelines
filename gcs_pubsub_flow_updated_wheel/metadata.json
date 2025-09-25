@@ -10,7 +10,7 @@
       "isOptional": false
     },
     {
-      "name": "io_options",
+      "name": "configs_options",
       "label": "IO Options",
       "helpText": "Path inside container (default: /template/configs/io_options.json)",
       "paramType": "TEXT",

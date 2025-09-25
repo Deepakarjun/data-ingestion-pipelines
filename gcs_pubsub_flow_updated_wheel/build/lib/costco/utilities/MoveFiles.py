@@ -1,19 +1,19 @@
-import argparse
-import json
-import logging
-import re
-from datetime import datetime
-from typing import Iterable, Tuple
-import os
-from os.path import basename
+# import argparse
+# import json
+# import re
+# from typing import Iterable, Tuple
+# import os
+# from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
+# from apache_beam.pvalue import TaggedOutput
 
 
-import apache_beam as beam
 from apache_beam.io import fileio
 from apache_beam.io.filesystems import FileSystems
-from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
-from apache_beam.pvalue import TaggedOutput
+from os.path import basename
+import apache_beam as beam
 from apache_beam import DoFn
+import datetime
+import logging
 
 
 class MoveFileDoFn(beam.DoFn):
@@ -24,11 +24,12 @@ class MoveFileDoFn(beam.DoFn):
         self.dest_prefix = dest_prefix.rstrip("/") + "/"
 
     def process(self, readable_file: fileio.ReadableFile):
+
         src = readable_file.metadata.path
-        dst = self.dest_prefix + basename(src)
+        dst = self.dest_prefix + str(datetime.datetime.now().strftime("%Y-%m-%d")) + "/" + basename(src)
+
         try:
-            # Ensure destination "folder" exists implicitly on GCS
-            with FileSystems.open(src):  # sanity read handle (optional)
+            with FileSystems.open(src):
                 pass
             FileSystems.copy([src], [dst])
             FileSystems.delete([src])

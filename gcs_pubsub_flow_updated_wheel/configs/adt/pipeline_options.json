@@ -9,6 +9,7 @@
   "workerSettings": {
     "machineType": "n2d-standard-4",
     "enableConfidentialWorker": true,
-    "numWorkers": 1
+    "numWorkers": 1,
+    "maxWorkers": 2
   }
 }
