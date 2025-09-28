@@ -1,0 +1,20 @@
+{
+  "name": "pubsub-df-pubsub",
+  "description": "Streaming job: Pub/Sub -> Dataflow -> Pub/Sub",
+  "parameters": [
+    {
+      "name": "pipeline_config_path",
+      "label": "Pipeline config",
+      "helpText": "Path to pipeline_options.json in GCS",
+      "paramType": "TEXT",
+      "isOptional": false
+    },
+    {
+      "name": "configs_options_path",
+      "label": "IO config",
+      "helpText": "Path to io_config.json in GCS",
+      "paramType": "TEXT",
+      "isOptional": false
+    }
+  ]
+}

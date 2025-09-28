@@ -1,5 +1,0 @@
-Metadata-Version: 2.4
-Name: gcs_streaming_to_pubsub
-Version: 1.0.0
-Requires-Dist: apache-beam[gcp]>=2.67.0
-Dynamic: requires-dist

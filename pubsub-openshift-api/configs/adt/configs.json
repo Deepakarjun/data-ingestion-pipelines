@@ -1,0 +1,15 @@
+{
+    "PROJECT_ID": "terraform-test-gcp-0114",
+    "BUCKET_NAME": "test-configurations-0114",
+    "PREFIX": "flow-pubsub-openshift-api",
+    "PROCESSED_DATA_FOLDER_FLAG": true,
+    "PROCESSED_DATA_FOLDER": "processed-data",
+    "INVALID_DATA_FOLDER_FLAG": true,
+    "INVALID_DATA_FOLDER": "invalid-data",
+    "TRACKING_ID_FOLDER_FLAG": true,
+    "TRACKING_ID_FOLDER": "tracking-id",
+    "INVALID_DECODE_DATA_FOLDER_FLAG": true,
+    "INVALID_DECODE_DATA_FOLDER": "invalid-decode-data",
+    "API_RISPONSE_FAIDED_FOLDER_FLAG": true,
+    "API_RISPONSE_FAIDED_FOLDER": "api-response-failed"
+}

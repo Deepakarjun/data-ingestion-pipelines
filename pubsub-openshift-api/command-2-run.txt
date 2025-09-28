@@ -1,0 +1,8 @@
+gcloud functions deploy pubsub-to-api \
+  --gen2 \
+  --runtime python311 \
+  --region us-east1 \
+  --source . \
+  --entry-point pubsub_to_api \
+  --trigger-topic ingress_costco_topic \
+  --set-env-vars API_URL="https://adt.np.api.cc-costco.com/core/warehouse-locator/v1/warehouses",CLIENT_IDENTIFIER="36901542-1a99-4deb-b581-362128bbb8c3",CONFIG_PATH="configs/adt/configs.json"

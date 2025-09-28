@@ -30,9 +30,7 @@ class ReadJsonRecordsDoFn(beam.DoFn):
                         if isinstance(rec, dict):
                             yield (path, rec)
                         else:
-                            yield beam.pvalue.TaggedOutput(
-                                "invalid", (path, json.dumps(rec, ensure_ascii=False), "array item not object")
-                            )
+                            yield beam.pvalue.TaggedOutput("invalid", (path, json.dumps(rec, ensure_ascii=False), "array item not object"))
                 else:
                     raise ValueError("Top-level JSON is not dict or list")
             except Exception:
@@ -45,13 +43,9 @@ class ReadJsonRecordsDoFn(beam.DoFn):
                         if isinstance(rec, dict):
                             yield (path, rec)
                         else:
-                            yield beam.pvalue.TaggedOutput(
-                                "invalid", (path, line, f"line {i}: not a JSON object")
-                            )
+                            yield beam.pvalue.TaggedOutput("invalid", (path, line, f"line {i}: not a JSON object"))
                     except Exception as je:
-                        yield beam.pvalue.TaggedOutput(
-                            "invalid", (path, line, f"line {i}: {je}")
-                        )
+                        yield beam.pvalue.TaggedOutput("invalid", (path, line, f"line {i}: {je}"))
         except Exception as e:
             yield beam.pvalue.TaggedOutput("invalid", (path, "", f"read failure: {e}"))
 

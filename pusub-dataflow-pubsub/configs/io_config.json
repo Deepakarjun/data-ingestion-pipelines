@@ -1,4 +1,0 @@
-{
-  "input_subscription": "projects/terraform-test-gcp-0114/subscriptions/ingress_costco_sub",
-  "output_topic": "projects/terraform-test-gcp-0114/topics/eggress_costco_topic"
-}
