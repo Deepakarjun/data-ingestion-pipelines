@@ -3,7 +3,7 @@
   "region": "us-central1",
   "runner": "DataflowRunner",
   "worker_zone": "us-central1-c",
-  "job_name": "pubsub-to-pubsub",
+  "job_name": "my-pubsub-dynamic-json-1",
   "temp_location": "gs://ust-gcp-costco-replatform-poc-flow/temp",
   "staging_location": "gs://ust-gcp-costco-replatform-poc-flow/staging",
   "streaming": true,

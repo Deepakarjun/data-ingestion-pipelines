@@ -1,0 +1,21 @@
+{
+  "launchParameter": {
+    "jobName": "ps-df-ps-20251003071346",
+    "containerSpecGcsPath": "gs://ust-gcp-costco-replatform-poc-flow/templates/ps-df-ps.json",
+    "parameters": {
+      "pipeline_options_path": "/template/configs/adt/pipeline_options.json",
+      "configs_options_path": "/template/configs/adt/configs.json"
+    },
+    "environment": {
+      "tempLocation": "gs://ust-gcp-costco-replatform-poc-flow/temp",
+      "stagingLocation": "gs://ust-gcp-costco-replatform-poc-flow/staging",
+      "network": "projects/ust-gcp-costco-replatform-poc/global/networks/costco-foundation-team-network",
+      "subnetwork": "regions/us-central1/subnetworks/costco-foundation-team-subnet",
+      "ipConfiguration": "WORKER_IP_PRIVATE",
+      "additionalExperiments": [
+        "enable_secure_boot",
+        "enable_confidential_compute"
+      ]
+    }
+  }
+}

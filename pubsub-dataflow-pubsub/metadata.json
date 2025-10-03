@@ -3,7 +3,7 @@
   "description": "Streaming job: Pub/Sub -> Dataflow -> Pub/Sub",
   "parameters": [
     {
-      "name": "pipeline_config_path",
+      "name": "pipeline_options_path",
       "label": "Pipeline config",
       "helpText": "Path to pipeline_options.json in GCS",
       "paramType": "TEXT",

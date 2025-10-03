@@ -29,7 +29,10 @@ bucket = storage_client.bucket(CONFIGS["BUCKET_NAME"])
 # log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 # logging.basicConfig(level=getattr(logging, log_level, logging.INFO))
 
-
+# def POST
+# def PUT
+# def DELETE
+# def GET
 
 @functions_framework.cloud_event
 def pubsub_to_api(cloud_event):

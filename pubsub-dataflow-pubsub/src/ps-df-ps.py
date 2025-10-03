@@ -1,5 +1,5 @@
 import apache_beam as beam
-from apache_beam.options.pipeline_options import PipelineOptions, StandardOptions
+from apache_beam.options.pipeline_options import PipelineOptions, StandardOptions, WorkerOptions, SetupOptions, GoogleCloudOptions
 from apache_beam.io import filesystems
 import json
 from apache_beam.io.filesystems import FileSystems
@@ -8,12 +8,12 @@ from apache_beam import pvalue
 import datetime
 import logging
 
-
+import sys
 
 class ConfigOptions(PipelineOptions):
     @classmethod
     def _add_argparse_args(cls, parser):
-        parser.add_argument("--pipeline_config_path", required=True)
+        parser.add_argument("--pipeline_options_path", required=True)
         parser.add_argument("--configs_options_path", required=True)
 
 class ValidateMessageDoFn(beam.DoFn):
@@ -83,29 +83,48 @@ def run():
     options = PipelineOptions()
     config_opts = options.view_as(ConfigOptions)
 
-    # Load JSON configs
-    pipeline_cfg = load_config(config_opts.pipeline_config_path)
     configs_options = load_config(config_opts.configs_options_path)
+    pipeline_options = load_config(config_opts.pipeline_options_path)
 
-    runtime_options = PipelineOptions(
-        project=pipeline_cfg["project"],
-        region=pipeline_cfg["region"],
-        runner=pipeline_cfg["runner"],
-        temp_location=pipeline_cfg["temp_location"],
-        staging_location=pipeline_cfg["staging_location"],
-        streaming=pipeline_cfg.get("streaming", False),
-    )
-    runtime_options.view_as(StandardOptions).streaming = pipeline_cfg.get("streaming", False)
+    google_opts = options.view_as(GoogleCloudOptions)
+    std_opts = options.view_as(StandardOptions)
+    worker_opts = options.view_as(WorkerOptions)
+    setup_opts = options.view_as(SetupOptions)
+    basic_opts = options.view_as(PipelineOptions)
 
+    for key, value in pipeline_options.items():
+
+        if hasattr(google_opts, key):
+            logging.info(f"Setting GoogleCloudOptions: {key} - {value}")
+            setattr(google_opts, key, value)
+            print("GoogleCloudOptions", f"{key}: {value}")
+        elif hasattr(std_opts, key):
+            logging.info(f"Setting StandardOptions: {key} - {value}")
+            setattr(std_opts, key, value)
+            print("StandardOptions", f"{key}: {value}")
+        elif hasattr(worker_opts, key):
+            logging.info(f"Setting WorkerOptions: {key} - {value}")
+            setattr(worker_opts, key, value)
+            print("WorkerOptions", f"{key}: {value}")
+        elif hasattr(setup_opts, key):
+            logging.info(f"Setting SetupOptions: {key} - {value}")
+            setattr(setup_opts, key, value)
+            print("SetupOptions", f"{key}: {value}")
+        elif hasattr(basic_opts, key):
+            logging.info(f"Setting PipelineOptions: {key} - {value}")
+            setattr(basic_opts, key, value)
+            print("PipelineOptions", f"{key}: {value}")
+        else:
+            print("Unknown option", f"{key}: {value}")
+            logging.error(f"Unknown option: {key}: {value}")
+            raise ValueError(f"Unknown option: {key}")
 
     subscription = f"projects/{configs_options['PROJECT_ID']}/subscriptions/{configs_options['INPUT_SUBSCRIPTION']}"
 
     if configs_options['OUTPUT_TOPIC'] is not None:    
         topic = f"projects/{configs_options['PROJECT_ID']}/topics/{configs_options['OUTPUT_TOPIC']}"
-    
-    
 
-    with beam.Pipeline(options=runtime_options) as p:
+    with beam.Pipeline(options=options) as p:
         
         messages = (p | "Read from PubSub" >> beam.io.ReadFromPubSub(subscription=subscription))
 

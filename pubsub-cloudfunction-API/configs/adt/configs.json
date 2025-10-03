@@ -2,6 +2,8 @@
     "PROJECT_ID": "terraform-test-gcp-0114",
     "BUCKET_NAME": "test-configurations-0114",
     "PREFIX": "flow-pubsub-openshift-api",
+    "METHOD": "POST",
+    "API_ENDPOINT": "",
     "PROCESSED_DATA_FOLDER_FLAG": true,
     "PROCESSED_DATA_FOLDER": "processed-data",
     "INVALID_DATA_FOLDER_FLAG": true,

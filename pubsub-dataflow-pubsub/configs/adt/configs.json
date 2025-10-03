@@ -1,9 +1,9 @@
 {
-    "PROJECT_ID": "terraform-test-gcp-0114",
-    "REGION": "us-east1",
-    "BUCKET_NAME": "test-configurations-0114",
+    "PROJECT_ID": "ust-gcp-costco-replatform-poc",
+    "REGION": "us-central1",
+    "BUCKET_NAME": "ust-gcp-costco-replatform-poc-flow",
     "PREFIX": "flow-pubsub-dataflow-pubsub",
-    "INPUT_SUBSCRIPTION": "ingress_costco_sub",
+    "INPUT_SUBSCRIPTION": "ingress_costco_topic-sub",
     "OUTPUT_TOPIC": "eggress_costco_topic",
     
     "WRITE_INVALID_MESSAGE_FLAG": true,
